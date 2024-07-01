@@ -16,6 +16,7 @@ const PermissionController = () => import('#controllers/permission_controller')
 const RoleController = () => import('#controllers/role_controller')
 const PlanController = () => import('#controllers/plan_controller')
 const TenantController = () => import('#controllers/tenant_controller')
+const AgencyController = () => import('#controllers/tenant/agency_controller')
 const BookingController = () => import('#controllers/tenant/booking_controller')
 const HotelController = () => import('#controllers/tenant/hotel_controller')
 const RoomController = () => import('#controllers/tenant/room_controller')
@@ -74,6 +75,17 @@ router
       })
       .use(middleware.auth({ guards: ['api'] }))
       .prefix('/bed')
+    // agencies routes
+    router
+      .group(() => {
+        router.get('/', [AgencyController, 'index'])
+        router.post('/', [AgencyController, 'create'])
+        router.get('/:id', [AgencyController, 'show'])
+        router.put('/:id', [AgencyController, 'update'])
+        router.delete('/:id', [AgencyController, 'destroy'])
+      })
+      .use(middleware.auth({ guards: ['api'] }))
+      .prefix('/agencies')
     // auth routes
     router
       .group(() => {

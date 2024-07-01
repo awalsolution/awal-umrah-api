@@ -105,7 +105,7 @@ export default class extends BaseSeeder {
         type: 'public',
       },
       {
-        name: 'agencies menu',
+        name: 'agency menu',
         type: 'public',
       },
       {
@@ -121,11 +121,7 @@ export default class extends BaseSeeder {
         type: 'public',
       },
       {
-        name: 'bookings menu',
-        type: 'public',
-      },
-      {
-        name: 'bookings list',
+        name: 'booking menu',
         type: 'public',
       },
       {
@@ -141,7 +137,63 @@ export default class extends BaseSeeder {
         type: 'public',
       },
       {
+        name: 'booking edit member',
+        type: 'public',
+      },
+      {
+        name: 'booking assign hotel',
+        type: 'public',
+      },
+      {
         name: 'booking print',
+        type: 'public',
+      },
+      {
+        name: 'hotel menu',
+        type: 'public',
+      },
+      {
+        name: 'hotel create',
+        type: 'public',
+      },
+      {
+        name: 'hotel update',
+        type: 'public',
+      },
+      {
+        name: 'hotel delete',
+        type: 'public',
+      },
+      {
+        name: 'room menu',
+        type: 'public',
+      },
+      {
+        name: 'room create',
+        type: 'public',
+      },
+      {
+        name: 'room update',
+        type: 'public',
+      },
+      {
+        name: 'room delete',
+        type: 'public',
+      },
+      {
+        name: 'bed menu',
+        type: 'public',
+      },
+      {
+        name: 'bed create',
+        type: 'public',
+      },
+      {
+        name: 'bed update',
+        type: 'public',
+      },
+      {
+        name: 'bed delete',
         type: 'public',
       },
     ])
