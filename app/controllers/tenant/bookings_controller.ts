@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
 import { HttpContext } from '@adonisjs/core/http'
+import { BaseController } from '#controllers/base_controller'
 import Bookings from '#models/tenant/booking'
 
-export default class BookingsController {
+export default class BookingsController extends BaseController {
   async index({ request, response }: HttpContext) {
     let DQ = Bookings.query()
 
