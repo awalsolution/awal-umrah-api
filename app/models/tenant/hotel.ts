@@ -1,40 +1,41 @@
 import { DateTime } from 'luxon'
-import { BaseModel, SnakeCaseNamingStrategy, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
-import Tenant from '#models/tenant'
+import { BaseModel, SnakeCaseNamingStrategy, column } from '@adonisjs/lucid/orm'
 
 BaseModel.namingStrategy = new SnakeCaseNamingStrategy()
 
-export default class Agencies extends BaseModel {
+export default class Hotel extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare agency_name: string
+  declare agencyId: number | null
 
   @column()
-  declare phone: string | null
+  declare name: string
 
   @column()
-  declare status: string
+  declare phone_number: string
 
   @column()
-  declare address: string
+  declare owner: string | null
 
   @column()
-  declare city: string
+  declare owner_phone: string | null
 
   @column()
-  declare state: string
+  declare status: boolean
 
   @column()
-  declare country: string
+  declare address: string | null
 
   @column()
-  declare logo: string
+  declare city: string | null
 
   @column()
-  declare created_by: string | null
+  declare state: string | null
+
+  @column()
+  declare country: string | null
 
   @column.dateTime({
     autoCreate: true,
@@ -48,4 +49,6 @@ export default class Agencies extends BaseModel {
     serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
   })
   declare updatedAt: DateTime
+
+  // relation
 }

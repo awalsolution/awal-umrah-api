@@ -1,9 +1,9 @@
 import { HttpContext } from '@adonisjs/core/http'
-import Agencies from '#models/tenant/agencies'
+import Agency from '#models/tenant/agency'
 
 export default class AgenciesController {
   async index({ request, response }: HttpContext) {
-    let DQ = Agencies.query()
+    let DQ = Agency.query()
 
     const page = request.input('page')
     const perPage = request.input('perPage')
@@ -29,7 +29,7 @@ export default class AgenciesController {
 
   async show({ request, response }: HttpContext) {
     try {
-      const DQ = await Agencies.query().where('id', request.param('id')).first()
+      const DQ = await Agency.query().where('id', request.param('id')).first()
 
       if (!DQ) {
         return response.notFound({
@@ -51,10 +51,9 @@ export default class AgenciesController {
     }
   }
 
-  async create({ auth, request, response }: HttpContext) {
+  async create({ request, response }: HttpContext) {
     try {
-      const currentUser = auth.user!
-      const DE = await Agencies.findBy('agency_name', request.body().name)
+      const DE = await Agency.findBy('agency_name', request.body().name)
 
       if (DE) {
         return response.conflict({
@@ -63,7 +62,7 @@ export default class AgenciesController {
         })
       }
 
-      const DM = new Agencies()
+      const DM = new Agency()
 
       DM.agency_name = request.body().name
       DM.phone = request.body().phone
@@ -90,17 +89,16 @@ export default class AgenciesController {
     }
   }
 
-  async update({ auth, request, response }: HttpContext) {
+  async update({ request, response }: HttpContext) {
     try {
-      const currentUser = auth.user!
-      const DQ = await Agencies.findBy('id', request.param('id'))
+      const DQ = await Agency.findBy('id', request.param('id'))
       if (!DQ) {
         return response.notFound({
           code: 400,
           message: 'Data does not exists!',
         })
       }
-      const DE = await Agencies.query()
+      const DE = await Agency.query()
         .where('agency_name', 'like', request.body().name)
         .whereNot('id', request.param('id'))
         .first()
@@ -138,7 +136,7 @@ export default class AgenciesController {
   }
 
   async destroy({ request, response }: HttpContext) {
-    const DQ = await Agencies.findBy('id', request.param('id'))
+    const DQ = await Agency.findBy('id', request.param('id'))
     if (!DQ) {
       return response.notFound({
         code: 400,
