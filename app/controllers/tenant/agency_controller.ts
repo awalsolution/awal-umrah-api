@@ -54,7 +54,7 @@ export default class AgencyController extends BaseController {
 
   async create({ request, response }: HttpContext) {
     try {
-      const DE = await Agency.findBy('agency_name', request.body().name)
+      const DE = await Agency.findBy('agency_name', request.body().agency_name)
 
       if (DE) {
         return response.conflict({
@@ -65,7 +65,7 @@ export default class AgencyController extends BaseController {
 
       const DM = new Agency()
 
-      DM.agency_name = request.body().name
+      DM.agency_name = request.body().agency_name
       DM.phone = request.body().phone
       DM.status = request.body().status
       DM.address = request.body().address
@@ -100,7 +100,7 @@ export default class AgencyController extends BaseController {
         })
       }
       const DE = await Agency.query()
-        .where('agency_name', 'like', request.body().name)
+        .where('agency_name', 'like', request.body().agency_name)
         .whereNot('id', request.param('id'))
         .first()
 
@@ -111,7 +111,7 @@ export default class AgencyController extends BaseController {
         })
       }
 
-      DQ.agency_name = request.body().name
+      DQ.agency_name = request.body().agency_name
       DQ.phone = request.body().phone
       DQ.status = request.body().status
       DQ.address = request.body().address
