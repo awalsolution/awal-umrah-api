@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon'
 import { HttpContext } from '@adonisjs/core/http'
 import { BaseController } from '#controllers/base_controller'
-import Bookings from '#models/tenant/booking'
+import Booking from '#models/tenant/booking'
 
-export default class BookingsController extends BaseController {
+export default class BookingController extends BaseController {
   async index({ request, response }: HttpContext) {
-    let DQ = Bookings.query()
+    let DQ = Booking.query()
 
     const page = request.input('page')
     const perPage = request.input('perPage')
@@ -31,7 +31,7 @@ export default class BookingsController extends BaseController {
 
   async create({ request, response }: HttpContext) {
     try {
-      const DM = new Bookings()
+      const DM = new Booking()
       DM.customerName = request.body().customer_name
       DM.status = request.body().status
       DM.group_no = request.body().group_no
@@ -57,7 +57,7 @@ export default class BookingsController extends BaseController {
   }
   async show({ request, response }: HttpContext) {
     try {
-      const DQ = await Bookings.query().where('id', request.param('id')).first()
+      const DQ = await Booking.query().where('id', request.param('id')).first()
 
       if (!DQ) {
         return response.notFound({
@@ -80,7 +80,7 @@ export default class BookingsController extends BaseController {
   }
 
   async destroy({ request, response }: HttpContext) {
-    const DQ = await Bookings.findBy('id', request.param('id'))
+    const DQ = await Booking.findBy('id', request.param('id'))
     if (!DQ) {
       return response.notFound({
         code: 400,

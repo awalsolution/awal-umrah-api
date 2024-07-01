@@ -2,7 +2,7 @@ import { HttpContext } from '@adonisjs/core/http'
 import { BaseController } from '#controllers/base_controller'
 import Agency from '#models/tenant/agency'
 
-export default class AgenciesController extends BaseController {
+export default class AgencyController extends BaseController {
   async index({ request, response }: HttpContext) {
     let DQ = Agency.query()
 
