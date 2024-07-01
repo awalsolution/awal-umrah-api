@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, SnakeCaseNamingStrategy, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, SnakeCaseNamingStrategy, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import BookingHotelDetail from '#models/tenant/booking_hotel_detail'
+import BookingMemberDetail from '#models/tenant/booking_member_detail'
 import Agency from '#models/tenant/agency'
 
 BaseModel.namingStrategy = new SnakeCaseNamingStrategy()
@@ -51,4 +53,10 @@ export default class Booking extends BaseModel {
 
   @belongsTo(() => Agency)
   declare agency: BelongsTo<typeof Agency>
+
+  @hasMany(() => BookingMemberDetail)
+  declare members: HasMany<typeof BookingMemberDetail>
+
+  @hasMany(() => BookingHotelDetail)
+  declare bookingHotelDetails: HasMany<typeof BookingHotelDetail>
 }
