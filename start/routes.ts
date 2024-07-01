@@ -16,6 +16,10 @@ const PermissionController = () => import('#controllers/permission_controller')
 const RoleController = () => import('#controllers/role_controller')
 const PlanController = () => import('#controllers/plan_controller')
 const TenantController = () => import('#controllers/tenant_controller')
+const BookingController = () => import('#controllers/tenant/booking_controller')
+const HotelController = () => import('#controllers/tenant/hotel_controller')
+const RoomController = () => import('#controllers/tenant/room_controller')
+const BedController = () => import('#controllers/tenant/bed_controller')
 
 router.get('/', async ({ response }) => {
   response.ok({
@@ -30,7 +34,47 @@ router.get('/api/v1/verify-domain/:name', [AuthController, 'verifyDomainName'])
 
 router
   .group(() => {
-    // user routes
+    // booking routes
+    router
+      .group(() => {
+        router.get('/', [BookingController, 'index'])
+        router.post('/', [BookingController, 'create'])
+        router.get('/:id', [BookingController, 'show'])
+        router.put('/:id', [BookingController, 'update'])
+        router.delete('/:id', [BookingController, 'destroy'])
+      })
+      .use(middleware.auth({ guards: ['api'] }))
+      .prefix('/booking')
+    // hotel routes
+    router
+      .group(() => {
+        router.get('/', [HotelController, 'index'])
+        router.post('/', [HotelController, 'create'])
+        router.get('/:id', [HotelController, 'show'])
+        router.put('/:id', [HotelController, 'update'])
+        router.delete('/:id', [HotelController, 'destroy'])
+      })
+      .use(middleware.auth({ guards: ['api'] }))
+      .prefix('/hotel')
+    // room routes
+    router
+      .group(() => {
+        router.get('/', [RoomController, 'index'])
+        router.post('/', [RoomController, 'create'])
+        router.get('/:id', [RoomController, 'show'])
+        router.put('/:id', [RoomController, 'update'])
+        router.delete('/:id', [RoomController, 'destroy'])
+      })
+      .use(middleware.auth({ guards: ['api'] }))
+      .prefix('/room')
+    // bed routes
+    router
+      .group(() => {
+        router.get('/', [BedController, 'index'])
+      })
+      .use(middleware.auth({ guards: ['api'] }))
+      .prefix('/bed')
+    // auth routes
     router
       .group(() => {
         router.post('/login', [AuthController, 'login'])
@@ -112,7 +156,7 @@ router
       })
       .use(middleware.auth({ guards: ['api'] }))
       .prefix('/tenant')
-
+    // plan routes
     router
       .group(() => {
         router.get('/', [PlanController, 'index'])

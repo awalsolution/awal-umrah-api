@@ -3,7 +3,7 @@ import { BaseController } from '#controllers/base_controller'
 import Bed from '#models/tenant/bed'
 import logger from '@adonisjs/core/services/logger'
 
-export default class AuthController extends BaseController {
+export default class BedController extends BaseController {
   async index({ request, response }: HttpContext) {
     try {
       let DQ = Bed.query()

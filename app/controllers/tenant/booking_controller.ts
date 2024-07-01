@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
 import { HttpContext } from '@adonisjs/core/http'
-import { BaseController } from '#controllers/base_controller'
-import Booking from '#models/tenant/booking'
 import logger from '@adonisjs/core/services/logger'
+import { BaseController } from '#controllers/base_controller'
 import BookingMemberDetail from '#models/tenant/booking_member_detail'
+import Booking from '#models/tenant/booking'
 import Bed from '#models/tenant/bed'
 
 export default class BookingController extends BaseController {
@@ -35,6 +35,42 @@ export default class BookingController extends BaseController {
         code: 200,
         message: 'Record find Successfully',
         data: data,
+      })
+    } catch (e) {
+      logger.error('something went wrong', e.toString())
+      return response.internalServerError({
+        code: 500,
+        message: e.toString(),
+      })
+    }
+  }
+
+  async show({ request, response }: HttpContext) {
+    try {
+      const DQ = await Booking.query()
+        .where('id', request.param('id'))
+        .preload('agency')
+        .preload('members', (q) => {
+          q.preload('hotelDetails', (subq) => {
+            subq.preload('bed').preload('hotel').preload('room')
+          })
+        })
+        .preload('bookingHotelDetails')
+        .first()
+
+      if (!DQ) {
+        return response.notFound({
+          code: 400,
+          message: 'Record Not Found',
+        })
+      }
+
+      logger.info(`Bookings with id: ${DQ.id} find successfully!`)
+
+      return response.ok({
+        code: 200,
+        message: 'Booking Find Successfully',
+        result: DQ.serialize(),
       })
     } catch (e) {
       logger.error('something went wrong', e.toString())
