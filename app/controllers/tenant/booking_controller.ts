@@ -70,7 +70,7 @@ export default class BookingController extends BaseController {
       return response.ok({
         code: 200,
         message: 'Booking Find Successfully',
-        result: DQ.serialize(),
+        data: DQ.serialize(),
       })
     } catch (e) {
       logger.error('something went wrong', e.toString())
@@ -102,6 +102,7 @@ export default class BookingController extends BaseController {
       })
     }
   }
+
   async update({ request, response }: HttpContext) {
     try {
       const data = request.body()
@@ -143,8 +144,8 @@ export default class BookingController extends BaseController {
       booking.group_no = data.group_no
       booking.group_name = data.group_name
       booking.category = data.category
-      booking.arrival_date = data.arrival_date
-      booking.expected_departure = data.expected_departure
+      booking.arrival_date = DateTime.fromJSDate(new Date(data.arrival_date))
+      booking.expected_departure = DateTime.fromJSDate(new Date(data.expected_departure))
       await booking.save()
     } else if (data.type === 'member') {
       if (data.dob instanceof Date) {

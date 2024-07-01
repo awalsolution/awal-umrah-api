@@ -24,10 +24,14 @@ export default class BookingHotelDetail extends BaseModel {
   @column()
   declare nights: number | null
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
+  })
   declare checkIn_date: DateTime | null
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
+  })
   declare checkOut_date: DateTime | null
 
   @column.dateTime({

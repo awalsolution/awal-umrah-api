@@ -21,7 +21,9 @@ export default class BookingMemberDetail extends BaseModel {
   @column()
   declare family_head: boolean
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toISODate(),
+  })
   declare dob: DateTime | null
 
   @column()
@@ -33,10 +35,14 @@ export default class BookingMemberDetail extends BaseModel {
   @column()
   declare passport_type: string
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toISODate(),
+  })
   declare issue_date: DateTime | null
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toISODate(),
+  })
   declare expiry_date: DateTime | null
 
   @column()
