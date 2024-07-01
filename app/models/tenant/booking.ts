@@ -18,7 +18,10 @@ export default class Booking extends BaseModel {
   declare userId: number | null
 
   @column()
-  declare customerName: string | null
+  declare booking_no: number | null
+
+  @column()
+  declare customer_name: string | null
 
   @column()
   declare status: string
@@ -32,10 +35,14 @@ export default class Booking extends BaseModel {
   @column()
   declare category: string | null
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
+  })
   declare arrival_date: DateTime | null
 
-  @column()
+  @column.dateTime({
+    serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
+  })
   declare expected_departure: DateTime | null
 
   @column.dateTime({

@@ -29,7 +29,7 @@ export default class BookingController extends BaseController {
         data = await DQ.select('*')
       }
 
-      logger.error('Bookings All Records find successfully!')
+      logger.info('Bookings All Records find successfully!')
 
       return response.ok({
         code: 200,
@@ -92,7 +92,7 @@ export default class BookingController extends BaseController {
       return response.ok({
         code: 200,
         message: 'Operation Successfully',
-        result: res,
+        data: res.serialize(),
       })
     } catch (e) {
       logger.error('something went wrong', e.toString())
@@ -131,9 +131,9 @@ export default class BookingController extends BaseController {
       }
     } else {
       booking = new Booking()
-      if (user && !this.isSuperAdmin(user)) {
-        booking.user_id = user.id
-        booking.companyId = user.companyId
+      if (user) {
+        booking.userId = user.id
+        booking.agencyId = user.agency_id
       }
     }
 
@@ -143,9 +143,8 @@ export default class BookingController extends BaseController {
       booking.group_no = data.group_no
       booking.group_name = data.group_name
       booking.category = data.category
-      booking.arrival_date = DateTime.fromJSDate(new Date(data.arrival_date))
-      booking.expected_departure = DateTime.fromJSDate(new Date(data.expected_departure))
-      booking.confirmed_ticket = data.confirmed_ticket
+      booking.arrival_date = data.arrival_date
+      booking.expected_departure = data.expected_departure
       await booking.save()
     } else if (data.type === 'member') {
       if (data.dob instanceof Date) {

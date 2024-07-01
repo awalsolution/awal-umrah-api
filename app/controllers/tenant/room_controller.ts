@@ -37,7 +37,7 @@ export default class RoomController extends BaseController {
       let data
 
       if (perPage) {
-        data = await DQ.paginate(page, perPage)
+        data = await DQ.preload('hotels').preload('beds').paginate(page, perPage)
       } else {
         data = await DQ.select('*')
       }
