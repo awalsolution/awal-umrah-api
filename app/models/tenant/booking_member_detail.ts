@@ -56,14 +56,14 @@ export default class BookingMemberDetail extends BaseModel {
 
   @column.dateTime({
     autoCreate: true,
-    serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
+    serialize: (value) => (value ? value.toISO() : null),
   })
   declare createdAt: DateTime
 
   @column.dateTime({
     autoCreate: true,
     autoUpdate: true,
-    serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
+    serialize: (value) => (value ? value.toISO() : null),
   })
   declare updatedAt: DateTime
 

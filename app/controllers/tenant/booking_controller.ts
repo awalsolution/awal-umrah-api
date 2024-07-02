@@ -124,9 +124,11 @@ export default class BookingController extends BaseController {
   }
 
   async mapBooking(id = null, data: any, user: any) {
+    console.log('data id is  ==>', id)
     let booking: any
     if (id) {
       booking = await Booking.query().where('id', id).first()
+      console.log(booking)
       if (!booking) {
         return false
       }
@@ -173,12 +175,15 @@ export default class BookingController extends BaseController {
         }
       }
     } else if (data.type === 'hotel') {
+      console.log(data.type)
       delete data.type
       const member = await BookingMemberDetail.query().where('id', id).first()
       if (member) {
         if (data.id) {
+          console.log('updata', data)
           await member.related('hotelDetails').updateOrCreate({}, data)
         } else {
+          console.log(data)
           await member.related('hotelDetails').create(data)
         }
         await this.updateBedStatus(data.bed_id, 'booked')

@@ -13,7 +13,7 @@ export default class extends BaseSchema {
         .inTable('hotels')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-      table.boolean('status').notNullable().defaultTo(true)
+      table.string('status').notNullable().defaultTo('active')
       table.string('room_type').notNullable()
       table.string('room_no').notNullable()
       table.string('floor_no').notNullable()
