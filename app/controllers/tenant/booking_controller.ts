@@ -86,13 +86,24 @@ export default class BookingController extends BaseController {
       const data = request.body()
       const user = auth.user!
       const res = await this.mapBooking(null, data, user)
+      let booking = new Booking()
+      booking.userId = user.id
+      booking.agencyId = user.agency_id ?? null
+      booking.customer_name = data.customer_name
+      booking.status = data.status
+      booking.group_no = data.group_no
+      booking.group_name = data.group_name
+      booking.category = data.category
+      booking.arrival_date = DateTime.fromJSDate(new Date(data.arrival_date))
+      booking.expected_departure = DateTime.fromJSDate(new Date(data.expected_departure))
+      await booking.save()
 
-      logger.info(`Bookings with id: ${res.id} created successfully!`)
+      logger.info(`Bookings with id: ${booking.id} created successfully!`)
 
       return response.ok({
         code: 200,
         message: 'Operation Successfully',
-        data: res.serialize(),
+        data: booking.serialize(),
       })
     } catch (e) {
       logger.error('something went wrong', e.toString())
@@ -106,7 +117,8 @@ export default class BookingController extends BaseController {
   async update({ request, response }: HttpContext) {
     try {
       const data = request.body()
-      await this.mapBooking(request.param('id'), data, null)
+      console.log(request.param('id'));
+      await this.mapBooking(request.param('id'), data)
 
       logger.info(`Booking with id:${request.param('id')} updated Successfully!`)
 
@@ -123,24 +135,12 @@ export default class BookingController extends BaseController {
     }
   }
 
-  async mapBooking(id = null, data: any, user: any) {
-    console.log('data id is  ==>', id)
-    let booking: any
-    if (id) {
-      booking = await Booking.query().where('id', id).first()
-      console.log(booking)
-      if (!booking) {
-        return false
-      }
-    } else {
-      booking = new Booking()
-      if (user) {
-        booking.userId = user.id
-        booking.agencyId = user.agency_id
-      }
+  async mapBooking(bookingId, data: any) {
+    let booking:any = await Booking.query().where('id', bookingId).first()
+    if (!booking) {
+      return false
     }
-
-    if (data.type === 'general' || !id) {
+    if (data.type === 'general') {
       booking.customer_name = data.customer_name
       booking.status = data.status
       booking.group_no = data.group_no
@@ -165,31 +165,26 @@ export default class BookingController extends BaseController {
       } else if (typeof data.expiry_date === 'number') {
         data.expiry_date = DateTime.fromJSDate(new Date(data.expiry_date))
       }
-      if (id) {
         const member = data
         delete member.type
+        delete member.hotelDetails
         if (member.id) {
-          await booking.related('members').updateOrCreate({}, member)
+          await booking.related('members').updateOrCreate({ id: member.id }, member)
         } else {
           await booking.related('members').create(member)
         }
-      }
     } else if (data.type === 'hotel') {
-      console.log(data.type)
       delete data.type
-      const member = await BookingMemberDetail.query().where('id', id).first()
+      const member = await BookingMemberDetail.query().where('id', data.booking_member_detail_id).first()
       if (member) {
         if (data.id) {
-          console.log('updata', data)
           await member.related('hotelDetails').updateOrCreate({}, data)
         } else {
-          console.log(data)
           await member.related('hotelDetails').create(data)
         }
         await this.updateBedStatus(data.bed_id, 'booked')
       }
     } else if (data.type === 'booking hotel') {
-      if (id) {
         const bookingHotel = data
         delete bookingHotel.type
         if (bookingHotel.id) {
@@ -197,7 +192,6 @@ export default class BookingController extends BaseController {
         } else {
           await booking.related('bookingHotelDetails').create(bookingHotel)
         }
-      }
     }
     return booking
   }
