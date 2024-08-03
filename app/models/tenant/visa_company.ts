@@ -3,12 +3,18 @@ import { BaseModel, SnakeCaseNamingStrategy, column } from '@adonisjs/lucid/orm'
 
 BaseModel.namingStrategy = new SnakeCaseNamingStrategy()
 
-export default class Agency extends BaseModel {
+export default class VisaCompany extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare agency_name: string
+  declare name: string
+
+  @column()
+  declare email: string
+
+  @column()
+  declare phone_number: string | null
 
   @column()
   declare phone: string | null
@@ -18,15 +24,6 @@ export default class Agency extends BaseModel {
 
   @column()
   declare address: string
-
-  @column()
-  declare city: string
-
-  @column()
-  declare state: string
-
-  @column()
-  declare country: string
 
   @column()
   declare logo: string

@@ -196,6 +196,22 @@ export default class extends BaseSeeder {
         name: 'bed delete',
         type: 'public',
       },
+      {
+        name: 'visa company menu',
+        type: 'public',
+      },
+      {
+        name: 'visa company create',
+        type: 'public',
+      },
+      {
+        name: 'visa company update',
+        type: 'public',
+      },
+      {
+        name: 'visa company delete',
+        type: 'public',
+      },
     ])
   }
 }
