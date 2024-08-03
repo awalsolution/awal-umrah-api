@@ -71,7 +71,7 @@ export default class AirLineController extends BaseController {
       DM.status = request.body().status
       DM.address = request.body().address
       DM.logo = request.body().logo
-      DM.created_by = currentUser?.profile?.first_name! + currentUser?.profile?.last_name
+      DM.created_by = currentUser?.profile?.first_name! + ' ' + currentUser?.profile?.last_name
 
       const DQ = await DM.save()
       return response.ok({
@@ -115,7 +115,7 @@ export default class AirLineController extends BaseController {
       DQ.status = request.body().status
       DQ.address = request.body().address
       DQ.logo = request.body().logo
-      DQ.created_by = currentUser?.profile?.first_name! + currentUser?.profile?.last_name
+      DQ.created_by = currentUser?.profile?.first_name! + ' ' + currentUser?.profile?.last_name
 
       await DQ.save()
       return response.ok({
