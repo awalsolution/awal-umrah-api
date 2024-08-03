@@ -212,6 +212,22 @@ export default class extends BaseSeeder {
         name: 'visa company delete',
         type: 'public',
       },
+      {
+        name: 'air line menu',
+        type: 'public',
+      },
+      {
+        name: 'air line create',
+        type: 'public',
+      },
+      {
+        name: 'air line update',
+        type: 'public',
+      },
+      {
+        name: 'air line delete',
+        type: 'public',
+      },
     ])
   }
 }

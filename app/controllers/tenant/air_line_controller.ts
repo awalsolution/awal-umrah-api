@@ -1,10 +1,10 @@
 import { HttpContext } from '@adonisjs/core/http'
 import { BaseController } from '#controllers/base_controller'
-import VisaCompany from '#models/tenant/visa_company'
+import AirLine from '#models/tenant/air_line'
 
-export default class VisaCompanyController extends BaseController {
+export default class AirLineController extends BaseController {
   async index({ request, response }: HttpContext) {
-    let DQ = VisaCompany.query()
+    let DQ = AirLine.query()
 
     const page = request.input('page')
     const perPage = request.input('perPage')
@@ -30,7 +30,7 @@ export default class VisaCompanyController extends BaseController {
 
   async show({ request, response }: HttpContext) {
     try {
-      const DQ = await VisaCompany.query().where('id', request.param('id')).first()
+      const DQ = await AirLine.query().where('id', request.param('id')).first()
 
       if (!DQ) {
         return response.notFound({
@@ -55,7 +55,7 @@ export default class VisaCompanyController extends BaseController {
   async create({ auth, request, response }: HttpContext) {
     try {
       const currentUser = auth.user!
-      const DE = await VisaCompany.findBy('name', request.body().name)
+      const DE = await AirLine.findBy('name', request.body().name)
 
       if (DE) {
         return response.conflict({
@@ -64,12 +64,10 @@ export default class VisaCompanyController extends BaseController {
         })
       }
 
-      const DM = new VisaCompany()
+      const DM = new AirLine()
 
       DM.name = request.body().name
-      DM.email = request.body().email
       DM.phone_number = request.body().phone_number
-      DM.phone = request.body().phone
       DM.status = request.body().status
       DM.address = request.body().address
       DM.logo = request.body().logo
@@ -93,14 +91,14 @@ export default class VisaCompanyController extends BaseController {
   async update({ auth, request, response }: HttpContext) {
     try {
       const currentUser = auth.user!
-      const DQ = await VisaCompany.findBy('id', request.param('id'))
+      const DQ = await AirLine.findBy('id', request.param('id'))
       if (!DQ) {
         return response.notFound({
           code: 400,
           message: 'Data does not exists!',
         })
       }
-      const DE = await VisaCompany.query()
+      const DE = await AirLine.query()
         .where('name', 'like', request.body().name)
         .whereNot('id', request.param('id'))
         .first()
@@ -113,9 +111,7 @@ export default class VisaCompanyController extends BaseController {
       }
 
       DQ.name = request.body().name
-      DQ.email = request.body().email
       DQ.phone_number = request.body().phone_number
-      DQ.phone = request.body().phone
       DQ.status = request.body().status
       DQ.address = request.body().address
       DQ.logo = request.body().logo
@@ -137,7 +133,7 @@ export default class VisaCompanyController extends BaseController {
   }
 
   async destroy({ request, response }: HttpContext) {
-    const DQ = await VisaCompany.findBy('id', request.param('id'))
+    const DQ = await AirLine.findBy('id', request.param('id'))
     if (!DQ) {
       return response.notFound({
         code: 400,

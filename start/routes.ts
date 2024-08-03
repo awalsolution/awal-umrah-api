@@ -18,6 +18,7 @@ const PlanController = () => import('#controllers/plan_controller')
 const TenantController = () => import('#controllers/tenant_controller')
 const AgencyController = () => import('#controllers/tenant/agency_controller')
 const VisaCompanyController = () => import('#controllers/tenant/visa_company_controller')
+const AirLineController = () => import('#controllers/tenant/air_line_controller')
 const BookingController = () => import('#controllers/tenant/booking_controller')
 const HotelController = () => import('#controllers/tenant/hotel_controller')
 const RoomController = () => import('#controllers/tenant/room_controller')
@@ -98,6 +99,17 @@ router
       })
       .use(middleware.auth({ guards: ['api'] }))
       .prefix('/visa-company')
+    // air line routes
+    router
+      .group(() => {
+        router.get('/', [AirLineController, 'index'])
+        router.post('/', [AirLineController, 'create'])
+        router.get('/:id', [AirLineController, 'show'])
+        router.put('/:id', [AirLineController, 'update'])
+        router.delete('/:id', [AirLineController, 'destroy'])
+      })
+      .use(middleware.auth({ guards: ['api'] }))
+      .prefix('/air-line')
     // auth routes
     router
       .group(() => {
