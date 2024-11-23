@@ -1,8 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, SnakeCaseNamingStrategy, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import BookingHotelDetail from '#models/tenant/booking_hotel_detail'
-import BookingMemberDetail from '#models/tenant/booking_member_detail'
+import { BaseModel, SnakeCaseNamingStrategy, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Agency from '#models/tenant/agency'
 
 BaseModel.namingStrategy = new SnakeCaseNamingStrategy()
@@ -21,19 +19,13 @@ export default class Booking extends BaseModel {
   declare booking_no: number | null
 
   @column()
-  declare customer_name: string | null
+  declare group_head: string | null
 
   @column()
   declare status: string
 
   @column()
-  declare group_no: number | null
-
-  @column()
   declare group_name: string | null
-
-  @column()
-  declare category: string | null
 
   @column.dateTime({
     serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
@@ -43,7 +35,7 @@ export default class Booking extends BaseModel {
   @column.dateTime({
     serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
   })
-  declare expected_departure: DateTime | null
+  declare departure_date: DateTime | null
 
   @column.dateTime({
     autoCreate: true,
@@ -60,10 +52,4 @@ export default class Booking extends BaseModel {
 
   @belongsTo(() => Agency)
   declare agency: BelongsTo<typeof Agency>
-
-  @hasMany(() => BookingMemberDetail)
-  declare members: HasMany<typeof BookingMemberDetail>
-
-  @hasMany(() => BookingHotelDetail)
-  declare bookingHotelDetails: HasMany<typeof BookingHotelDetail>
 }
