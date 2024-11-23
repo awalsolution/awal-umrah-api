@@ -23,14 +23,11 @@ export default class extends BaseSchema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
 
-      table.string('booking_no').nullable()
-      table.string('customer_name').nullable()
+      table.string('booking_no').notNullable()
+      table.string('group_head')
       table.string('status').notNullable().defaultTo('draft')
-      table.integer('group_no').nullable()
-      table.string('group_name').nullable()
-      table.string('category').nullable()
       table.dateTime('arrival_date').nullable()
-      table.dateTime('expected_departure').nullable()
+      table.dateTime('departure_date').nullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

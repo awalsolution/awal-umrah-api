@@ -54,37 +54,7 @@ export default class extends BaseSeeder {
         created_by: 'Iqbal Hassan',
       },
       {
-        name: 'Hotels',
-        type: 'public',
-        status: 1,
-        created_by: 'Iqbal Hassan',
-      },
-      {
-        name: 'Rooms',
-        type: 'public',
-        status: 1,
-        created_by: 'Iqbal Hassan',
-      },
-      {
-        name: 'Beds',
-        type: 'public',
-        status: 1,
-        created_by: 'Iqbal Hassan',
-      },
-      {
-        name: 'Visa',
-        type: 'public',
-        status: 1,
-        created_by: 'Iqbal Hassan',
-      },
-      {
-        name: 'Visa Companies',
-        type: 'public',
-        status: 1,
-        created_by: 'Iqbal Hassan',
-      },
-      {
-        name: 'Air Line',
+        name: 'Agencies',
         type: 'public',
         status: 1,
         created_by: 'Iqbal Hassan',

@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, SnakeCaseNamingStrategy, column } from '@adonisjs/lucid/orm'
+import { BaseModel, SnakeCaseNamingStrategy, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import User from '#models/user'
 
 BaseModel.namingStrategy = new SnakeCaseNamingStrategy()
 
@@ -8,7 +10,10 @@ export default class Agency extends BaseModel {
   declare id: number
 
   @column()
-  declare agency_name: string
+  declare userId: number
+
+  @column()
+  declare name: string
 
   @column()
   declare phone: string | null
@@ -28,12 +33,6 @@ export default class Agency extends BaseModel {
   @column()
   declare country: string
 
-  @column()
-  declare logo: string
-
-  @column()
-  declare created_by: string | null
-
   @column.dateTime({
     autoCreate: true,
     serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
@@ -46,4 +45,7 @@ export default class Agency extends BaseModel {
     serialize: (value) => value?.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY),
   })
   declare updatedAt: DateTime
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 }

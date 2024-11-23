@@ -21,7 +21,7 @@ export class BaseController {
 
   async isTenant(key: string) {
     if (key) {
-      const tenant = await Tenant.findBy('tenant_api_key', key)
+      const tenant: any = await Tenant.findBy('tenant_api_key', key, { connection: 'mysql' })
       return tenant?.serialize()
     }
   }
